@@ -10,6 +10,9 @@ class XhrLoader {
     if (config && config.xhrSetup) {
       this.xhrSetup = config.xhrSetup;
     }
+    if (config && config.xhrSetupBeforeOpen) {
+      this.xhrSetupBeforeOpen = config.xhrSetupBeforeOpen;
+    }
   }
 
   destroy() {
@@ -51,6 +54,9 @@ class XhrLoader {
     xhr.onreadystatechange = this.readystatechange.bind(this);
     xhr.onprogress = this.loadprogress.bind(this);
 
+    if (this.xhrSetupBeforeOpen) {
+      this.xhrSetupBeforeOpen(xhr, context.url);
+    }
     xhr.open('GET', context.url, true);
 
     if (context.rangeEnd) {
